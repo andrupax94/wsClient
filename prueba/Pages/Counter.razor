@@ -1,0 +1,64 @@
+﻿@page "/counter"
+@using System.Net.WebSockets;
+@using System.Text
+@inject WebSocketClient WebSocketClient
+<PageTitle>Counter</PageTitle>
+<div id="main">
+	<div>
+		<h3>@_statusMessage</h3>
+		<input type="text" value="@mensaje" placeholder="Mensaje a enviar">
+		<button>Enviar mensaje</button>
+		<button (click)="sendMessage('impresoras')">Dam Impresoras</button>
+		<button @onclick="Connect">Connect</button>
+		<button @onclick="SendMessage">Send Message</button>
+		<button @onclick="ReceiveMessage">Receive Message</button>
+		<button @onclick="Close">Close</button>
+
+		<p>@_statusMessage</p>
+	</div>
+	<div>
+		<h5>Mensaje Enviado:@mensaje</h5>
+		<h5>Mensaje Recibido:@recibido</h5>
+		<h5>Lista De Impresoras:</h5>
+		<ul>
+			@foreach (var item in impresoras)
+			{
+				<li>@item</li>
+			}
+		</ul>
+	</div>
+</div>
+@code {
+
+	private int currentCount = 0;
+	public string mensaje = "ghola";
+	public string recibido = "Aun nada";
+	public string[] impresoras = ["1", "2", "3"];
+
+	private string _statusMessage;
+
+	private async Task Connect()
+	{
+		 await WebSocketClient.ConnectAsync("wss://andrespa.servecounterstrike.com:8090");
+		//await WebSocketClient.ConnectAsync("wss://127.0.0.1:8090");
+		_statusMessage = "Connected to WebSocket server";
+	}
+
+	private async Task SendMessage()
+	{
+		await WebSocketClient.SendMessageAsync("Hola, servidor WebSocket!");
+		_statusMessage = "Message sent: Hola, servidor WebSocket!";
+	}
+
+	private async Task ReceiveMessage()
+	{
+		var message = await WebSocketClient.ReceiveMessageAsync();
+		_statusMessage = $"Message received: {message}";
+	}
+
+	private async Task Close()
+	{
+		await WebSocketClient.CloseAsync();
+		_statusMessage = "Connection closed";
+	}
+}
