@@ -9,39 +9,93 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background: rgb(12, 35, 84);
+    background: linear-gradient(180deg, rgb(7, 21, 49) 40%, rgba(0, 81, 191, 1) 100%);
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 35px;
+    background-color: #05163d;
+    color: white;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Ebrima';
+    font-weight: 100;
+    text-align: center;
 }
 
 .top-row {
-    background-color: #f7f7f7;
+    background-color: #dddddd;
     border-bottom: 1px solid #d6d5d5;
-    justify-content: flex-end;
-    height: 3.5rem;
+    justify-content: right;
+    min-height: 4rem;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
 }
 
-    .top-row ::deep a, .top-row ::deep .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-        text-decoration: none;
-    }
+.info-box {
+    position: relative;
+    background-color: #999999;
+    padding: 6px;
+    border-radius: 5px;
+    padding-left: 50px;
+    font-size: 12px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    margin-right: 10px;
+}
 
-    .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
-        text-decoration: underline;
-    }
+.info-box>span {
+    background-color: #757575;
+    position: absolute;
+    height: 100%;
+    left: 0;
+    border-radius: 5px 0px 0px 5px;
+    width: 40px;
+}
 
-    .top-row ::deep a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.info-box>b {
+    margin-right: 3px;
+}
+
+.info-box:last-child>span {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.top-row ::deep a,
+.top-row ::deep .btn-link {
+    white-space: nowrap;
+    margin-left: 1.5rem;
+    text-decoration: none;
+}
+
+.top-row ::deep a:hover,
+.top-row ::deep .btn-link:hover {
+    text-decoration: underline;
+}
+
+.top-row ::deep a:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 @media (max-width: 640.98px) {
     .top-row {
         justify-content: space-between;
     }
 
-    .top-row ::deep a, .top-row ::deep .btn-link {
+    .top-row ::deep a,
+    .top-row ::deep .btn-link {
         margin-left: 0;
     }
 }
@@ -52,7 +106,7 @@ main {
     }
 
     .sidebar {
-        width: 250px;
+        width: 280px;
         height: 100vh;
         position: sticky;
         top: 0;
@@ -70,7 +124,8 @@ main {
         width: 0;
     }
 
-    .top-row, article {
+    .top-row,
+    article {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }

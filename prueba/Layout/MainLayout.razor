@@ -6,11 +6,38 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <div class="info-box">
+                <span></span>
+                <b>Estatus:</b>@estatus
+            </div>
+            <div class="info-box">
+                <span></span>
+                <b>Conexiones Activas:</b>@conexiones.Count
+            </div>
+            <div class="info-box">
+                <span></span>
+                <b>Recibidos:</b>@mRecibidos
+            </div>
+            <div class="info-box">
+                <span></span>
+                <b>Enviados:</b>@mEnviados
+            </div>
+            <div class="info-box">
+                <span></span>
+            </div>
         </div>
 
         <article class="content px-4">
             @Body
         </article>
     </main>
+    <footer>
+        Andros©®™|Derechos e izquierdos Reservados o algo asi era
+    </footer>
 </div>
+@code {
+    public string estatus { get; set; } = "Desconectado";
+    public List<Conexiones> conexiones { get; set; } = new List<Conexiones>();
+    public int mRecibidos { get; set; } = 0;
+    public int mEnviados { get; set; } = 0;
+}

@@ -1,0 +1,49 @@
+﻿@page "/";
+<PageTitle>Counter</PageTitle>
+<div id="main">
+	<div>
+		<div>
+			<h3>Prueba De WebSokets</h3>
+
+			<input type="text" @bind="mensaje" placeholder="Mensaje a enviar">
+			<input type="text" @bind="idother" placeholder="Id del otro cliente">
+			<button @onclick="Connect">Connectar</button>
+			<button @onclick="@(() => SendMessage("impresoras"))">Dame Impresoras</button>
+			<button @onclick="@(() => SendMessage())">Enviar Mensaje</button>
+			<button @onclick="@(() => CreateConecctions())">Crear Conexiones</button>
+			<button @onclick="@(() => RunBenchmark())">BenchMark</button>
+
+			<button @onclick="Close">CerrarConexion</button>
+
+		</div>
+		<div>
+			<p><b>Estatus:</b> @_statusMessage</p>
+			<h5><b>Lista De Impresoras:</b></h5>
+			<ul>
+				@foreach (var item in impresoras)
+				{
+					<li>@item</li>
+				}
+			</ul>
+		</div>
+	</div>
+	<div id="table">
+		<table>
+			<tr>
+				<td>N</td>
+				<td>IDConexion</td>
+				<td>MensajeEnviado</td>
+				<td>MensajeRecivido</td>
+			</tr>
+			@foreach (var item in conexiones)
+			{
+				<tr>
+					<td>@item.id</td>
+					<td>@item.IDConexion</td>
+					<td>@item.MensajeEnviado</td>
+					<td>@item.MensajeRecivido</td>
+				</tr>
+			}
+		</table>
+	</div>
+</div>

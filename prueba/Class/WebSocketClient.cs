@@ -7,18 +7,13 @@ using System.Threading.Tasks;
 public class WebSocketClient
 {
     private ClientWebSocket _webSocket;
-   
+    public event Action<string> OnMessageReceived;
     public async Task ConnectAsync(string uri)
     {
         _webSocket = new ClientWebSocket();
-        try
-        {
-            await _webSocket.ConnectAsync(new Uri(uri), CancellationToken.None);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
+       
+        await _webSocket.ConnectAsync(new Uri(uri), CancellationToken.None);
+        _ = ListenForMessagesAsync();
         Console.WriteLine("Conectado al servidor WebSocket");
     }
 
@@ -29,13 +24,24 @@ public class WebSocketClient
         Console.WriteLine($"Mensaje enviado: {message}");
     }
 
-    public async Task<string> ReceiveMessageAsync()
+    private async Task ListenForMessagesAsync()
     {
         byte[] buffer = new byte[1024];
-        WebSocketReceiveResult result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-        string receivedMessage = Encoding.UTF8.GetString(buffer, 0, result.Count);
-        Console.WriteLine($"Mensaje recibido: {receivedMessage}");
-        return receivedMessage;
+
+        try
+        {
+            while (_webSocket.State == WebSocketState.Open)
+            {
+                WebSocketReceiveResult result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                string receivedMessage = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                OnMessageReceived?.Invoke(receivedMessage);
+                Console.WriteLine($"Mensaje recibido: {receivedMessage}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al recibir mensajes: {ex.Message}");
+        }
     }
 
     public async Task CloseAsync()
