@@ -9,6 +9,8 @@ var configuration = new ConfigurationBuilder()
            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
            .Build();
 builder.Services.AddSingleton(configuration);
+builder.Services.AddScoped<SignalRService>();
+builder.Services.AddScoped<StatusMessageService>();
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 await builder.Build().RunAsync();

@@ -1,0 +1,45 @@
+﻿@namespace prueba
+@inject SignalRService _signalRService
+<PageTitle>Home</PageTitle>
+
+
+    <div id="table">
+        @if (_signalRService.conexiones.Count > 0)
+{
+        <table>
+            <tr>
+                <td>N</td>
+                <td>IDConexion</td>
+                <td>MensajeEnviado</td>
+                <td>MensajeRecivido</td>
+            </tr>
+            @foreach (var item in _signalRService.conexiones)
+            {
+                <tr>
+                    <td>@item.id</td>
+                    <td>@item.IDConexion</td>
+                    <td>@item.MensajeEnviado</td>
+                    <td>@item.MensajeRecivido</td>
+                </tr>
+            }
+        </table>
+        }
+else
+{
+    <div id="sinDatos">
+        <span></span>
+    <h3>Aun Sin Datos</h3>
+    </div>
+}
+    </div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        _signalRService.ConexionesChanged += StateHasChanged;
+    }
+    public void Dispose()
+    {
+        _signalRService.ConexionesChanged -= StateHasChanged;
+    }
+}

@@ -27,13 +27,11 @@ namespace prueba.Pages.Counter
         [Inject]
         private IConfiguration Configuration { get; set; }
         private string guid;
+        [Inject]
+        public SignalRService _signalRService { get; set; }
+
         // Esta funci�n se ejecuta cuando se inicializa el componente
-        protected override async Task OnInitializedAsync()
-        {
 
-
-
-        }
         private async Task Connect()
         {
             // URL del servidor SignalR (Aseg�rate de que sea correcta)

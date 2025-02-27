@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ProjectGuid>{892a609a-a3e9-4071-99fe-754bb4bc9632}</ProjectGuid>
-    
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,14 +19,16 @@
   </ItemGroup>
 
 
-
-
-
   <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
     <PackageReference Include="LoremNET" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.2" />
+
   </ItemGroup>
+
+
+ 
 
 </Project>

@@ -1,31 +1,56 @@
 {
-    // Use IntelliSense para saber los atributos posibles.
-    // Mantenga el puntero para ver las descripciones de los existentes atributos.
-    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
+    "compounds": [
+        {
+            "name": "Hot Reload and Attach",
+            "configurations": [
+                "Attach and Debug",
+                "Hot Reload",
+            ],
+            "presentation": {
+                "hidden": false,
+                "group": "asd",
+                "order": 1
+            }
+        }
+    ],
     "configurations": [
         {
-            "name": ".NET Stalker (Debug w/ Google Chrome)",
+            "name": "Attach and Debug",
+            "type": "blazorwasm",
+            "request": "attach",
+            "url": "https://localhost:7296",
+            "browser": "edge",
+            "presentation": {
+                "hidden": true,
+                "group": "asd",
+                "order": 2,
+            },
+            "cwd": "${workspaceFolder}/prueba",
+            "webRoot": "${workspaceFolder}/prueba/wwwroot",
+        },
+        {
+            "name": "Hot Reload",
             "type": "stalker",
             "request": "launch",
+            "presentation": {
+                "hidden": true,
+                "group": "asd",
+                "order": 3
+            },
             "vars": {
                 "framework": "net9.0",
-                "projectDir": "${workspaceFolder}",
+                "projectDir": "${workspaceFolder}/prueba",
                 "projectName": "prueba"
             },
-            "project": "${var:projectDir}/prueba/${var:projectName}.csproj",
-            "process": "${var:projectDir}/prueba/bin/Debug/${var:framework}/${var:projectName}",
+            "project": "${var:projectDir}/${var:projectName}.csproj",
+            "process": "${var:projectDir}/bin/Debug/${var:framework}/${var:projectName}.dll",
             "cwd": "${var:projectDir}",
             "url": "https://localhost:7296",
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
-            "webRoot": "${var:projectDir}/prueba/wwwroot",
-            "attachOptions": {
-                "action": "debugWithChrome",
-                "urlPath": "https://localhost:7296",
-                "interval": 500
-            }
-        }
+            "webRoot": "${var:projectDir}/wwwroot",
+        },
     ]
 }

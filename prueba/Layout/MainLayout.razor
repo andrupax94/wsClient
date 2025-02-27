@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject StatusMessageService StatusMessageService
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -6,21 +8,24 @@
 
     <main>
         <div class="top-row px-4">
-            <div class="info-box">
+            <div title="@StatusMessageService.StatusMessage" class="info-box ">
                 <span></span>
-                <b>Estatus:</b>@estatus
+                <p class="d-none d-lg-block"><b>Estatus:</b></p>
+                <p class="marquee">
+                <p class="">@StatusMessageService.StatusMessage</p>
+                </p>
             </div>
             <div class="info-box">
                 <span></span>
-                <b>Conexiones Activas:</b>@conexiones.Count
+                <p title="Conexiones Activas" class="d-none d-lg-block"><b>C. Activas:</b></p>@conexiones.Count
             </div>
             <div class="info-box">
                 <span></span>
-                <b>Recibidos:</b>@mRecibidos
+                <p class="d-none d-lg-block"><b>Recibidos:</b></p>@mRecibidos
             </div>
             <div class="info-box">
                 <span></span>
-                <b>Enviados:</b>@mEnviados
+                <p class="d-none d-lg-block"><b>Enviados:</b></p>@mEnviados
             </div>
             <div class="info-box">
                 <span></span>
@@ -30,14 +35,25 @@
         <article class="content px-4">
             @Body
         </article>
+        <TablaComponent></TablaComponent>
     </main>
     <footer>
         Andros©®™|Derechos e izquierdos Reservados o algo asi era
     </footer>
 </div>
 @code {
-    public string estatus { get; set; } = "Desconectado";
+
     public List<Conexiones> conexiones { get; set; } = new List<Conexiones>();
     public int mRecibidos { get; set; } = 0;
     public int mEnviados { get; set; } = 0;
+    protected override void OnInitialized()
+    {
+        StatusMessageService.StatusMessage = "Aplicacion Iniciada";
+        StatusMessageService.StatusMessageChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        StatusMessageService.StatusMessageChanged -= StateHasChanged;
+    }
 }
