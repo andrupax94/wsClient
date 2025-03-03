@@ -1,13 +1,19 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
 html,
 body {
     font-family: 'Ebrima', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 100;
 }
 
+:root {
+    --gradiente1: linear-gradient(180deg, rgb(7, 21, 49) 40%, rgba(0, 81, 191, 1) 100%);
+}
+
 main {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 b {
@@ -68,6 +74,7 @@ a,
     0% {
         transform: translateX(0%);
     }
+
     100% {
         transform: translateX(-100%);
     }
@@ -190,6 +197,7 @@ code {
     0% {
         transform: translateX(0%);
     }
+
     100% {
         transform: translateX(-100%);
     }

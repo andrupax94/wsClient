@@ -1,0 +1,45 @@
+﻿@page "/Conectar";
+@namespace prueba.Pages.ConectarComponent
+<PageTitle>Conectar</PageTitle>
+<div id="main">
+
+	<div id="miniMenu" class=" flex-column">
+		<div></div>
+		<div class="">
+			<span></span>
+			<h3>Conexion</h3>
+		</div>
+		<div class="d-flex flex-wrap justify-content-center justify-content-md-around">
+			<div class="col col-11 col-md-5 flex-column justify-content-center">
+				<p>Host</p>
+				<select @bind="serverHost" type="text">
+					<option value="https://localhost:7001/">Local</option>
+					<option value="https://signalrsinservicio-d2hweefnhqh5cpb7.canadacentral-01.azurewebsites.net/">
+						Azure
+					</option>
+				</select>
+			</div>
+			<div class="col col-11 col-md-5 flex-column justify-content-center">
+				<p>N° Conexiones</p>
+				<input @bind="_clientCount" placeholder="N° Conexiones" max="1000" min="1" type="number">
+			</div>
+			<div class="col col-11 col-md-5 flex-column justify-content-center">
+				<p>Hub?</p>
+				<input @bind="serverHub" placeholder="Hub?" type="text">
+			</div>
+			<div id="conectarButtons" class="col col-11 col-md-5">
+				<button @onclick="() => _signalRService.Connect(true, serverHost, serverHub, _clientCount)"
+					class=" conectarButton">
+					<span></span>
+					<p>Limpiar y Conectar</p>
+				</button>
+				<button @onclick="() => _signalRService.Connect(false, serverHost, serverHub, _clientCount)"
+					class="conectarButton">
+					<span></span>
+					<p>Conectar y Agregar</p>
+				</button>
+			</div>
+		</div>
+	</div>
+
+</div>

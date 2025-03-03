@@ -10,7 +10,7 @@ main {
 
 .sidebar {
     background: rgb(12, 35, 84);
-    background: linear-gradient(180deg, rgb(7, 21, 49) 40%, rgba(0, 81, 191, 1) 100%);
+    background: var(--gradiente1);
 }
 
 footer {
@@ -27,10 +27,11 @@ footer {
     font-family: 'Ebrima';
     font-weight: 100;
     text-align: center;
+    z-index: 100;
 }
 
 .top-row {
-    padding-top: 15px;
+    padding-top: 5px;
     padding-bottom: 15px;
     background-color: #dddddd;
     border-bottom: 1px solid #d6d5d5;
@@ -38,6 +39,8 @@ footer {
     min-height: 4rem;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    max-width: 100%;
 }
 
 .info-box {
@@ -55,6 +58,7 @@ footer {
     text-align: center;
     margin-right: 10px;
     color: white;
+    margin-top: 10px;
 }
 
 .info-box>span {
@@ -151,6 +155,9 @@ footer {
 main article {
     height: 50vh;
     overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 main article::before {
@@ -174,12 +181,15 @@ main article::before {
     .top-row {
         justify-content: space-between;
     }
+
     .info-box:nth-child(2) {
-        min-width: 70px;
+        min-width: auto;
     }
+
     .info-box:nth-child(1) {
-        max-width: 200px;
+        max-width: 100%;
     }
+
     .top-row ::deep a,
     .top-row ::deep .btn-link {
         margin-left: 0;
@@ -190,28 +200,34 @@ main article::before {
     .page {
         flex-direction: row;
     }
+
     .info-box:nth-child(2) {
-        min-width: 130px;
+        min-width: auto;
     }
+
     .info-box:nth-child(1) {
-        max-width: inherit;
+        max-width: 40%;
     }
+
     .sidebar {
         width: 280px;
         height: 100vh;
         position: sticky;
         top: 0;
     }
+
     .top-row {
         position: sticky;
         top: 0;
         z-index: 1;
     }
+
     .top-row.auth ::deep a:first-child {
         flex: 1;
         text-align: right;
         width: 0;
     }
+
     .top-row,
     article {
         padding-left: 2rem !important;

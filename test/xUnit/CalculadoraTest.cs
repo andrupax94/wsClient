@@ -1,6 +1,6 @@
 using Moq;
 using Xunit;
-
+namespace test.xUnit;
 public class CalculadoraTests
 {
     [Fact]

@@ -12,6 +12,8 @@ public class SignalRService
     private IConfiguration _configuration;
 
     private HubConnection _connection;
+
+
     private static string guid = "";
     public static string idother = "";
     public static string[] impresoras = { "Aun Sin Nada" };
@@ -47,71 +49,63 @@ public class SignalRService
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         _statusMessageService = statusMessageService ?? throw new ArgumentNullException(nameof(statusMessageService));
     }
-    public async Task Connect()
+    public async Task Connect(bool limpiar = false, string serverHost = "https://localhost:7001/", string serverHub = "chathub", int clientCount = 1)
     {
-        // URL del servidor SignalR (Asegúrate de que sea correcta)
-        string serverUrl = "https://localhost:7001/chathub";
-
-        guid = _configuration["ApplicationSettings:GUID"];
-        idother = _configuration["ApplicationSettings:GUIDD"];
-
-        // Creando la conexión SignalR
-        _connection = new HubConnectionBuilder()
-            .WithUrl(serverUrl + $"?guid={guid}", options =>
-            {
-                // Forzar uso de WebSockets
-                options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
-            })
-            .WithAutomaticReconnect()  // Habilita reconexiones automáticas
-            .Build();
-
-        // Manejar mensajes recibidos desde SignalR
-        _connection.On<string>("ReceiveMessage", (message) =>
+        if (limpiar)
         {
-            // Intentar deserializar como un arreglo de impresoras
-            try
+            if (_connections.Count > 0)
             {
-                var impresorasObj = JsonSerializer.Deserialize<string[]>(message);
-                if (impresorasObj != null)
+                foreach (var connection in _connections)
                 {
-                    impresoras = impresorasObj;  // Actualizar el listado de impresoras
-                    _statusMessageService.StatusMessage = "Impresoras Importadas";
+                    await connection.StopAsync();
                 }
-                else
-                {
-                    _statusMessageService.StatusMessage = $"Mensaje Recibido: {message}";
-                }
+                _connections.Clear();
+                conexiones.Clear();
             }
-            catch (JsonException ex)
+
+        }
+        var numeroDeConexionesActuales = _connections.Count;
+        Conexiones aux = new Conexiones { id = 0, IDConexion = "", MensajeEnviado = "", MensajeRecivido = "", Host = "" };
+        for (int i = 0; i < clientCount; i++)
+        {
+
+            var url = serverHost + serverHub;
+            var connection = new HubConnectionBuilder()
+               .WithUrl(url)
+               .WithAutomaticReconnect()
+               .Build();
+            var conexionInfo = new Conexiones { id = i + numeroDeConexionesActuales, IDConexion = connection.ConnectionId, MensajeEnviado = "", MensajeRecivido = "", Host = url };
+            var localIndex = i;
+            if (i == 0)
             {
-                _statusMessageService.StatusMessage = $"Mensaje Recibido: {message}";
+                aux = conexionInfo;
             }
+            connection.On<string>("ReceiveMessage", (message) =>
+        {
+            conexiones[localIndex].MensajeRecivido = message;
+            // InvokeAsync(StateHasChanged);
+
         });
+            await connection.StartAsync();
+            conexionInfo.IDConexion = connection.ConnectionId;
 
-        try
-        {
-            // Inicia la conexión con SignalR
-            await _connection.StartAsync();
-            _statusMessageService.StatusMessage = "Conexion exitosa, ID de conexion: " + _connection.ConnectionId;
+            _connections.Add(connection);
+            conexiones.Add(conexionInfo);
         }
-        catch (Exception ex)
+        OnConexionesChanged();
+        if (clientCount == 1)
         {
-            _statusMessageService.StatusMessage = $"Error al conectar con SignalR: {ex.Message}";
+            _statusMessageService.StatusMessage = "Conexion exitosa, ID de conexion: " + aux.IDConexion;
         }
-
+        else
+            _statusMessageService.StatusMessage = "Conexiones creadas";
     }
     public async Task SendMessage(string mensajeEnviar = "")
     {
 
         if (_connection?.State == HubConnectionState.Connected)
         {
-
-
-
-
             await _connection.InvokeAsync("SendMessageToClient", idother, mensajeEnviar);
-
-
             _statusMessageService.StatusMessage = "Enviado: " + mensajeEnviar;
         }
         else

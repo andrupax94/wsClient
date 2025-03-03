@@ -4,16 +4,20 @@
     border-collapse: separate;
     /* Necesario para que border-spacing funcione */
     border-spacing: 2px;
+    width: 100%;
 }
 
 #table {
+    position: relative;
     height: 40vh;
-    overflow: auto;
+    overflow-x: auto;
+
     box-shadow: -1px 0px 10px -3px black;
     background-color: #e2e2e2;
-    display: flex;
+    display: block;
     justify-content: center;
     z-index: 1;
+
 }
 
 #table>table>tr>td {

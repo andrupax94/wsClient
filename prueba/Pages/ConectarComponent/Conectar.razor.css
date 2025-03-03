@@ -1,0 +1,243 @@
+﻿#miniMenu {
+    width: 450px;
+    height: auto;
+    padding-bottom: 20px;
+    background-color: lightgray;
+    margin: 0 auto;
+    align-self: center;
+    justify-self: center;
+}
+
+#miniMenu>div:nth-child(1) {
+    position: relative;
+    height: 5px;
+    background: var(--gradiente1);
+    z-index: 2;
+}
+
+#miniMenu>div:nth-child(2) {
+    width: 60%;
+    margin: 0 auto;
+    z-index: 1;
+    text-align: center;
+    position: relative;
+    top: -4px;
+    background-image: url("/images/topDecorator.svg");
+    color: white;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: 100% 100%;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#miniMenu>div:nth-child(2)>span {
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    position: relative;
+    display: block;
+    mask-image: url("./icons/conectar.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: 90%;
+}
+
+#miniMenu>div:nth-child(2)>h3 {
+
+    align-self: right;
+    font-size: 1.5em;
+}
+
+#miniMenu>div:nth-child(3) {
+    width: 100%;
+
+    position: relative;
+}
+
+#miniMenu>div:nth-child(3)>div {
+    align-items: center;
+    display: flex;
+    --inputWidth: 180px;
+}
+
+#miniMenu select {
+    left: 0px !important;
+}
+
+#miniMenu>div:nth-child(3)>div>p {
+
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(78, 78, 78);
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    width: var(--inputWidth);
+    margin-left: 25px;
+    margin-bottom: 5px;
+}
+
+#miniMenu>div:nth-child(3)>div>input, #miniMenu>div:nth-child(3)>div>select {
+    align-self: center;
+    justify-self: center;
+    height: 40px;
+    padding-left: 5px;
+    min-width: var(--inputWidth);
+    margin-bottom: 10px;
+    position: relative;
+    border: none;
+    font-size: 12px;
+    border-radius: 3px 3px 0px 0px;
+    border-bottom: solid 2px rgb(180, 180, 180);
+}
+
+#conectarButtons {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    overflow: hidden;
+    height: 40px;
+    margin-top: 26px;
+    border-radius: 5px;
+}
+
+
+.conectarButton {
+
+    width: 50%;
+    height: 40px;
+    position: absolute;
+    background-color: #902a90;
+    overflow: hidden;
+    display: flex;
+    font-size: 10px;
+    color: white;
+    text-align: center;
+    align-items: center;
+    border: none;
+    opacity: 0.8;
+    transition: opacity, width linear 0.1s;
+    cursor: pointer;
+}
+
+.conectarButton:hover {
+    width: 100%;
+    z-index: 1;
+}
+
+.conectarButton:hover span {
+    left: 5px;
+}
+
+
+
+
+.conectarButton>p {
+
+    visibility: hidden;
+    position: relative;
+    width: 1px;
+    height: 100%;
+    overflow: hidden;
+
+    margin-bottom: 0;
+}
+
+.conectarButton:hover p {
+    width: 90px;
+    visibility: visible;
+    display: block;
+    align-content: center;
+
+}
+
+.conectarButton>span {
+    display: block;
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    position: absolute;
+
+
+    transition: left 0.1s linear, right 0.1s linear;
+
+    margin-right: 20px;
+    mask-position: center;
+    mask-repeat: no-repeat;
+}
+
+.conectarButton:nth-child(2) {
+    background-color: #ff6a00;
+    right: 0;
+    flex-direction: row-reverse;
+}
+
+
+.conectarButton:nth-child(2) p {
+    right: 65px;
+}
+
+.conectarButton:nth-child(1) {
+    left: 0;
+}
+
+.conectarButton:nth-child(1) p {
+    left: 45px;
+}
+
+.conectarButton:hover {
+    opacity: 1;
+}
+
+.conectarButton:nth-child(1):hover>span {
+    left: 10px;
+}
+
+.conectarButton:nth-child(2):hover>span {
+    right: 2px;
+}
+
+.conectarButton:nth-child(1)>span {
+    mask-image: url("./icons/conectar2.svg");
+    left: 35%;
+}
+
+.conectarButton:nth-child(2)>span {
+    right: 12%;
+    left: auto;
+    mask-image: url("./icons/conectar3.svg");
+
+}
+
+@media (min-width: 576px) {
+    #miniMenu {
+        width: 220px !important;
+    }
+
+    #miniMenu>div:nth-child(2) {
+        width: 100%;
+        top: -6px;
+    }
+}
+
+@media (min-width: 768px) {
+    #miniMenu {
+        width: 450px !important;
+    }
+
+    #miniMenu>div:nth-child(2) {
+        width: 60%;
+    }
+
+
+}
