@@ -1,4 +1,4 @@
-﻿@page "/";
+﻿@page "/Counter";
 <PageTitle>Counter</PageTitle>
 @namespace prueba.Pages.Counter
 <div id="main">
@@ -9,8 +9,8 @@
 			<input type="text" @bind="mensaje" placeholder="Mensaje a enviar">
 			<input type="text" @bind="idother" placeholder="Id del otro cliente">
 			<button @onclick="() => _signalRService.Connect()">Connectar</button>
-			<button @onclick="@(() => _signalRService.SendMessage("impresoras"))">Dame Impresoras</button>
-			<button @onclick="@(() => _signalRService.SendMessage())">Enviar Mensaje</button>
+			<button @onclick="@dameImpresoras">Dame Impresoras</button>
+			<button @onclick="@enviarMensaje">Enviar Mensaje</button>
 			<button @onclick="@(() => _signalRService.CreateConecctions())">Crear Conexiones</button>
 			<button @onclick="@(() => _signalRService.RunBenchmark())">BenchMark</button>
 

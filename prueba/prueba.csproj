@@ -29,6 +29,13 @@
   </ItemGroup>
 
 
+  <ItemGroup>
+    <Reference Include="misFunciones">
+      <HintPath>..\..\misFunciones\misFunciones\bin\Debug\net8.0\misFunciones.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
  
 
 </Project>

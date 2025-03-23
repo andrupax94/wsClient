@@ -1,0 +1,157 @@
+﻿#miniMenu {
+    width: 450px;
+    height: auto;
+    padding-bottom: 20px;
+    margin: 0 auto;
+    align-self: center;
+    justify-self: center;
+    background-color: rgba(0, 0, 0, 0.050);
+    backdrop-filter: blur(7px);
+    /* Aplica el desenfoque al fondo */
+    -webkit-backdrop-filter: blur(7px);
+    box-shadow: 2px 2px 5px -3px;
+}
+
+#miniMenu>div:nth-child(1) {
+    position: relative;
+    height: 5px;
+    background: var(--gradiente1);
+    z-index: 2;
+}
+
+#miniMenu>div:nth-child(2) {
+    width: 60%;
+    margin: 0 auto;
+    z-index: 1;
+    text-align: center;
+    position: relative;
+    top: -4px;
+    background-image: url("/images/topDecorator.svg");
+    color: white;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: 100% 100%;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#miniMenu>div:nth-child(2)>span {
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    position: relative;
+    display: block;
+    mask-image: url("./icons/impresora.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: 90%;
+}
+
+#miniMenu>div:nth-child(2)>h3 {
+
+    align-self: right;
+    font-size: 1.5em;
+}
+
+#miniMenu>div:nth-child(3) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+#miniMenu>div:nth-child(3)>div {
+    align-items: center;
+    display: flex;
+    --inputWidth: 180px;
+    width: 90%;
+    margin-top: 20px;
+}
+
+#miniMenu>div:nth-child(3)>div p {
+    text-align: left;
+    width: 75%;
+    margin-bottom: 10px;
+    font-weight: 800;
+    color: rgb(56, 56, 56);
+    font-family: var(--font1);
+    font-size: 16px;
+}
+
+#miniMenu select, #miniMenu textarea {
+    left: 0px !important;
+    height: 45px;
+    border: none;
+    font-size: 12px;
+    border-radius: 5px 5px 0px 0px;
+    border-bottom: gray 3px solid;
+    width: 80%;
+}
+
+#miniMenu textarea {
+    resize: none;
+    height: 80px;
+    text-transform: capitalize;
+}
+
+#miniMenu button {
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    background-color: #2665aa;
+    font-size: 16px;
+    padding: 15px 20px 15px 20px;
+
+}
+
+#miniMenu button span {
+    mask-image: url("./icons/impresora.svg");
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    margin-right: 20px;
+}
+
+#miniMenu button p {
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-self: center;
+    height: 100%;
+}
+
+@media (min-width: 576px) {
+    #miniMenu {
+        width: 220px !important;
+    }
+
+    #miniMenu>div:nth-child(2) {
+        width: 100%;
+        top: -6px;
+    }
+}
+
+@media (min-width: 768px) {
+    #miniMenu {
+        width: 450px !important;
+    }
+
+    #miniMenu>div:nth-child(2) {
+        width: 60%;
+    }
+
+
+}

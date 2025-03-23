@@ -22,7 +22,7 @@
             "url": "https://localhost:7296",
             "browser": "edge",
             "presentation": {
-                "hidden": true,
+                "hidden": false,
                 "group": "asd",
                 "order": 2,
             },

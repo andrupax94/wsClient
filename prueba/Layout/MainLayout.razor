@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject StatusMessageService StatusMessageService
+@inject SignalRService SignalRService
 
 <div class="page">
     <div class="sidebar">
@@ -17,15 +18,16 @@
             </div>
             <div class="info-box">
                 <span></span>
-                <p title="Conexiones Activas" class="d-none d-lg-block"><b>C. Activas:</b></p>@conexiones.Count
+                <p title="Conexiones Activas" class="d-none d-lg-block"><b>C. Activas:</b></p>
+                @SignalRService.Conexiones.Count
             </div>
             <div class="info-box">
                 <span></span>
-                <p class="d-none d-lg-block"><b>Recibidos:</b></p>@mRecibidos
+                <p class="d-none d-lg-block"><b>Recibidos:</b></p>@SignalRService.MensajesRecibidos
             </div>
             <div class="info-box">
                 <span></span>
-                <p class="d-none d-lg-block"><b>Enviados:</b></p>@mEnviados
+                <p class="d-none d-lg-block"><b>Enviados:</b></p>@SignalRService.MensajesEnviados
             </div>
             <div class="info-box">
                 <span></span>
@@ -35,7 +37,7 @@
         <article class="content px-4">
             @Body
         </article>
-        <TablaComponent></TablaComponent>
+        <prueba.Pages.BottomTabla.TablaComponent></prueba.Pages.BottomTabla.TablaComponent>
     </main>
     <footer>
         Andros©®™|Derechos e izquierdos Reservados o algo asi era
@@ -43,17 +45,22 @@
 </div>
 @code {
 
-    public List<Conexiones> conexiones { get; set; } = new List<Conexiones>();
-    public int mRecibidos { get; set; } = 0;
-    public int mEnviados { get; set; } = 0;
+
+
     protected override void OnInitialized()
     {
         StatusMessageService.StatusMessage = "Aplicacion Iniciada";
         StatusMessageService.StatusMessageChanged += StateHasChanged;
+        SignalRService.MensajeEnviadosChanged += StateHasChanged;
+        SignalRService.MensajeRecibidosChanged += StateHasChanged;
+        SignalRService.ConexionesChanged += StateHasChanged;
     }
 
     public void Dispose()
     {
         StatusMessageService.StatusMessageChanged -= StateHasChanged;
+        SignalRService.MensajeEnviadosChanged -= StateHasChanged;
+        SignalRService.MensajeRecibidosChanged -= StateHasChanged;
+        SignalRService.ConexionesChanged -= StateHasChanged;
     }
 }

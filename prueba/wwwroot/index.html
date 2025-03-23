@@ -16,9 +16,7 @@
         rel="stylesheet">
 
     <environment names="Development">
-
         <script src="_framework/aspnetcore-browser-refresh.js"></script>
-
     </environment>
 </head>
 
@@ -37,6 +35,52 @@
         <span class="dismiss">🗙</span>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-analytics.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyDRlRpcu0rOedY_CpnWHKm4R1OfcxraJJU",
+            authDomain: "test-fastreport.firebaseapp.com",
+            databaseURL: "https://test-fastreport-default-rtdb.firebaseio.com",
+            projectId: "test-fastreport",
+            storageBucket: "test-fastreport.firebasestorage.app",
+            messagingSenderId: "764788089279",
+            appId: "1:764788089279:web:7a33be0b1992ac26b2810a",
+            measurementId: "G-FC4ESS7H4V"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        window.getData = async function (ruta) {
+            // Get a reference to the database
+            const database = getDatabase(app);
+            const dbRef = ref(database, ruta); // 'ruta' is the path you want to retrieve data from
+
+            try {
+                // Fetch the data
+                const snapshot = await get(dbRef);
+                if (snapshot.exists()) {
+                    // Return the data if it exists
+                    return snapshot.val();
+                } else {
+                    console.error("No data found at the specified path.");
+                    return null; // Return null if no data is found
+                }
+            } catch (error) {
+                console.error("Error retrieving data from Firebase:", error);
+                return null; // Return null if there is an error
+            }
+        };
+    </script>
+
 </body>
 
 </html>

@@ -1,0 +1,198 @@
+.title {
+    position: relative;
+    height: 50px;
+
+    width: fit-content;
+    margin: 0 auto;
+    padding: 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+
+    --title-color: rgb(73, 73, 73);
+}
+
+.title span {
+    mask-image: url("./icons/conectar2.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    width: 30px;
+    height: 30px;
+    background-color: var(--title-color);
+    margin-right: 15px;
+}
+
+.title h3 {
+    position: relative;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--title-color);
+    font-family: var(--font2);
+    top: 5px;
+
+}
+
+#table>table {
+    margin-top: 50px;
+    position: relative;
+    border-collapse: separate;
+    /* Necesario para que border-spacing funcione */
+    border-spacing: 2px;
+    width: 100%;
+}
+
+#bottomMain {
+    position: relative;
+    height: 30vh;
+}
+
+#table {
+    position: relative;
+    height: 100%;
+    overflow-x: auto;
+
+
+    background-color: #e2e2e2;
+    display: block;
+    align-content: top;
+    justify-content: top;
+    z-index: 1;
+
+}
+
+#table>table {
+
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+
+    #table>table {
+
+        width: 80%;
+    }
+}
+
+@media (min-width: 992px) {
+    #table>table {
+
+        width: 60%;
+    }
+}
+
+#table>table>tr {
+    height: 32px;
+}
+
+#table>table>tr>td {
+    padding: 7px 7px;
+    text-align: center;
+    border-radius: 2px;
+    max-width: 120px;
+    min-height: 60px;
+    font-size: 12px;
+    /* Ajusta el ancho máximo según tus necesidades */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#table>table>tr:nth-child(2n)>td {
+    background-color: rgb(196, 196, 196);
+    color: black;
+}
+
+#table>table>tr:nth-child(2n+1)>td {
+    background-color: rgb(223, 222, 222);
+    color: black;
+}
+
+#table>table>tr:first-child>td {
+    background-color: #2665aa;
+    color: white;
+}
+
+#sinDatos {
+    margin: auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+}
+
+#sinDatos>span {
+    width: 100px;
+    height: 100px;
+    background-color: #999494;
+    mask-image: url(./icons/noData.svg);
+    mask-repeat: no-repeat;
+}
+
+#sinDatos>h3 {
+    font-family: var(--font2);
+    color: #959595;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 21px;
+}
+
+.ocean {
+    height: 0%;
+    width: 100%;
+    position: relative;
+    bottom: -21px;
+    left: 0;
+    background: #e2e2e2;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.wave {
+    mask: url(https://cdn.kcak11.com/codepen_assets/wave_animation/wave.svg) repeat-x;
+    position: absolute;
+    background-color: #e2e2e2;
+    top: -143px;
+    width: 6400px;
+    height: 147px;
+    animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    transform: translate3d(0, 0, 0);
+}
+
+.wave:nth-of-type(2) {
+    top: -163px;
+    animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite, swell 7s ease -1.25s infinite;
+    opacity: 1;
+    height: 200px;
+}
+
+@keyframes wave {
+    0% {
+        margin-left: 0;
+    }
+
+    100% {
+        margin-left: -1600px;
+    }
+}
+
+@keyframes swell {
+
+    0%,
+    100% {
+        transform: translate3d(0, -25px, 0);
+    }
+
+    50% {
+        transform: translate3d(0, 5px, 0);
+    }
+}
+
+.endWave {
+    display: none;
+}

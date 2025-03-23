@@ -1,0 +1,64 @@
+﻿@page "/Mensajes";
+@namespace prueba.Pages.Mensajes
+<PageTitle>Mensajes</PageTitle>
+<div id="main">
+
+	<div id="miniMenu" class=" flex-column">
+		<div></div>
+		<div class="">
+			<span></span>
+			<h3>Mensajes</h3>
+		</div>
+		<div class="d-flex flex-wrap justify-content-center justify-content-md-around">
+			<div class="col col-11 col-md-5 flex-column justify-content-center">
+				<p>Origen</p>
+				<select data-testid="Destino" @bind="origen" type="text">
+					@if (_signalRService.conexiones.Count() == 0)
+					{
+						<option value="noconexion">Sin Conexiones Activas</option>
+					}
+					else
+					{
+						@foreach (var item in _signalRService.conexiones)
+						{
+							<option value="@item.id">@item.IDConexion En: @item.Host</option>
+						}
+					}
+				</select>
+			</div>
+			<div class="col col-11 col-md-5 flex-column justify-content-center">
+				<p>Destino</p>
+				<select data-testid="Destino" @bind="destino" type="text">
+					@if (_signalRService.conexiones.Count() == 0 && _conexionesConGuid.Count == 0)
+					{
+						<option value="noconexion">Sin Conexiones Activas</option>
+					}
+					else
+					{
+						@foreach (var item2 in _conexionesConGuid)
+						{
+							<option value="@item2">[OtraApp]@item2</option>
+						}
+						@foreach (var item in _signalRService.conexiones)
+						{
+							<option value="@item.id">[EstaAPP]@item.IDConexion En: @item.Host</option>
+						}
+					}
+				</select>
+			</div>
+			<div class="col col-11 col-md-5 flex-column justify-content-center">
+				<p>Mensaje</p>
+				<textarea data-testid="Mensaje" @bind="mensaje" placeholder="Mensaje" type="textarea"></textarea>
+			</div>
+
+
+			<button data-testid="Limpiar y Conectar" @onclick="EnviarMensaje" class=" conectarButton">
+				<span></span>
+				<p>Enviar Mensaje</p>
+			</button>
+
+
+		</div>
+	</div>
+
+</div>

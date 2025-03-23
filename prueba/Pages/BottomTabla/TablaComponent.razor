@@ -1,0 +1,67 @@
+﻿@namespace prueba.Pages.BottomTabla
+@inject SignalRService _signalRService
+<PageTitle>Home</PageTitle>
+<div id="bottomMain">
+    <div class="ocean">
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+    <div id="table">
+
+        @if (_signalRService.conexiones.Count > 0)
+        {
+            <div class="title">
+                <span></span>
+                <h3>@title</h3>
+            </div>
+            <table>
+                <tr>
+                    <td>N</td>
+                    <td>Host</td>
+                    <td>IDConexion</td>
+                    <td>MensajeEnviado</td>
+                    <td>MensajeRecibido</td>
+                </tr>
+                @foreach (var item in _signalRService.conexiones)
+                {
+                    <tr>
+                        <td title="@item.id">@item.id</td>
+                        <td title="@item.Host">@item.Host</td>
+                        <td title="@item.IDConexion">@item.IDConexion</td>
+                        <td title="@item.MensajeEnviado">@item.MensajeEnviado</td>
+                        <td title="@item.MensajeRecivido">@item.MensajeRecivido</td>
+                    </tr>
+                }
+                @for (var i = _signalRService.conexiones.Count; i <= 8; i++)
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <div id="sinDatos">
+                <span></span>
+                <h3>Aun Sin Datos</h3>
+            </div>
+        }
+    </div>
+</div>
+@code {
+    public string title { get; set; }
+    protected override void OnInitialized()
+    {
+        _signalRService.ConexionesChanged += StateHasChanged;
+        title = "Lista De Conexiones";
+    }
+    public void Dispose()
+    {
+        _signalRService.ConexionesChanged -= StateHasChanged;
+    }
+}

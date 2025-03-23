@@ -2,10 +2,15 @@
     width: 450px;
     height: auto;
     padding-bottom: 20px;
-    background-color: lightgray;
+
     margin: 0 auto;
     align-self: center;
     justify-self: center;
+    background-color: rgba(0, 0, 0, 0.050);
+    backdrop-filter: blur(7px);
+    /* Aplica el desenfoque al fondo */
+    -webkit-backdrop-filter: blur(7px);
+    box-shadow: 2px 2px 5px -3px;
 }
 
 #miniMenu>div:nth-child(1) {

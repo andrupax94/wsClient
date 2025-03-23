@@ -153,11 +153,12 @@ footer {
 }
 
 main article {
-    height: 50vh;
+    height: 60vh;
     overflow: auto;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom: 100px;
 }
 
 main article::before {

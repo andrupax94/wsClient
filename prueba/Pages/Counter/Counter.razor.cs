@@ -31,7 +31,14 @@ namespace prueba.Pages.Counter
         public SignalRService _signalRService { get; set; }
 
         // Esta funci�n se ejecuta cuando se inicializa el componente
+        public async Task dameImpresoras()
+        {
 
+        }
+        public async Task enviarMensaje()
+        {
+
+        }
         private async Task Connect()
         {
             // URL del servidor SignalR (Aseg�rate de que sea correcta)

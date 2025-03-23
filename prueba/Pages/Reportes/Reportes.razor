@@ -1,0 +1,34 @@
+﻿@page "/Reportes";
+@namespace prueba.Pages.Reportes
+@using System.Text.Json
+@inject IJSRuntime JS
+<PageTitle>Reportes</PageTitle>
+
+<h3>Datos de Firebase</h3>
+<button @onclick="CargarDatos">Obtener Datos</button>
+<p>@datos</p>
+
+@code {
+	private string datos = string.Empty;
+
+	private async Task CargarDatos()
+	{
+		try
+		{
+			// Aquí se recibe el objeto JSON como JsonElement o como tipo dinámico
+			var aux = await JS.InvokeAsync<JsonElement>("getData", "/");
+
+			// Si quieres convertirlo a un string (por ejemplo, convirtiendo todo el JSON a un string)
+			var jsonString = aux.ToString();
+
+			// Asignar a la variable 'datos'
+			datos = jsonString;
+
+			StateHasChanged(); // Actualizar la UI
+		}
+		catch (Exception ex)
+		{
+			datos = "Error al obtener datos: " + ex.Message;
+		}
+	}
+}

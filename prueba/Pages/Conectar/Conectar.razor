@@ -1,5 +1,5 @@
-﻿@page "/Conectar";
-@namespace prueba.Pages.ConectarComponent
+﻿@page "/";
+@namespace prueba.Pages.Conectar
 <PageTitle>Conectar</PageTitle>
 <div id="main">
 
@@ -12,28 +12,34 @@
 		<div class="d-flex flex-wrap justify-content-center justify-content-md-around">
 			<div class="col col-11 col-md-5 flex-column justify-content-center">
 				<p>Host</p>
-				<select @bind="serverHost" type="text">
+				<select data-testid="Host" @bind="serverHost" type="text">
 					<option value="https://localhost:7001/">Local</option>
 					<option value="https://signalrsinservicio-d2hweefnhqh5cpb7.canadacentral-01.azurewebsites.net/">
-						Azure
+						Azure(Andres)
+					</option>
+					<option value="https://serviciointermedio.azurewebsites.net/">
+						Azure(Atecresa)
 					</option>
 				</select>
 			</div>
 			<div class="col col-11 col-md-5 flex-column justify-content-center">
 				<p>N° Conexiones</p>
-				<input @bind="_clientCount" placeholder="N° Conexiones" max="1000" min="1" type="number">
+				<input data-testid="N° Conexiones" @bind="_clientCount" placeholder="N° Conexiones" max="1000" min="1"
+					type="number">
 			</div>
 			<div class="col col-11 col-md-5 flex-column justify-content-center">
 				<p>Hub?</p>
-				<input @bind="serverHub" placeholder="Hub?" type="text">
+				<input data-testid="Hub" @bind="serverHub" placeholder="Hub?" type="text">
 			</div>
 			<div id="conectarButtons" class="col col-11 col-md-5">
-				<button @onclick="() => _signalRService.Connect(true, serverHost, serverHub, _clientCount)"
+				<button data-testid="Limpiar y Conectar"
+					@onclick="() => _signalRService.Connect(true, serverHost, serverHub, _clientCount)"
 					class=" conectarButton">
 					<span></span>
 					<p>Limpiar y Conectar</p>
 				</button>
-				<button @onclick="() => _signalRService.Connect(false, serverHost, serverHub, _clientCount)"
+				<button data-testid="Conectar y Agregar"
+					@onclick="() => _signalRService.Connect(false, serverHost, serverHub, _clientCount)"
 					class="conectarButton">
 					<span></span>
 					<p>Conectar y Agregar</p>

@@ -1,0 +1,87 @@
+﻿@page "/Impresoras";
+@namespace prueba.Pages.Impresoras
+<PageTitle>Impresoras</PageTitle>
+<div id="main">
+
+	<div id="miniMenu" class=" flex-column">
+		<div></div>
+		<div class="">
+			<span></span>
+			<h3>Impresoras</h3>
+		</div>
+		<div class="d-flex flex-wrap justify-content-center justify-content-md-around">
+			<div class="col col-11 col-md-5 flex-column justify-content-center">
+				<p>Origen</p>
+				<select data-testid="Destino" @bind="origen" type=" text">
+					@if (_signalRService.conexiones.Count() == 0)
+					{
+						<option value="noconexion">Sin Conexiones Activas</option>
+					}
+					else
+					{
+						@foreach (var item in _signalRService.conexiones)
+						{
+							<option value="@item.id">@item.IDConexion En: @item.Host</option>
+						}
+					}
+				</select>
+			</div>
+			<div class="col col-11 col-md-5 flex-column justify-content-center">
+				<p>Destino</p>
+				<select data-testid="Destino" @bind="destino" type="text">
+					@if (_conexionesConGuid.Count == 0)
+					{
+						<option value="noconexion">Sin Conexiones Activas</option>
+					}
+					else
+					{
+						@foreach (var item2 in _conexionesConGuid)
+						{
+							<option value="@item2">[OtraApp]@item2</option>
+						}
+					}
+				</select>
+			</div>
+			<div class="col col-11 col-md-5 flex-column justify-content-center">
+				<p>Impresoras Disponibles:</p>
+
+				<select data-testid="impresora" @bind="impresora" type="text">
+					@if (_signalRService.conexiones.Count > 0)
+					{
+						@if (_signalRService.conexiones[int.Parse(origen)].Impresoras.Count == 0)
+						{
+							<option value="">Sin Impresoras</option>
+						}
+						else
+						{
+							var impresoras = _signalRService.conexiones[int.Parse(origen)].Impresoras;
+							for (int i = 0; i < _signalRService.conexiones[int.Parse(origen)].Impresoras.Count; i++)
+							{
+								<option value="@i">@_signalRService.conexiones[int.Parse(origen)].Impresoras[i]</option>
+							}
+						}
+					}
+					else
+					{
+
+						<option value="">Sin Impresoras</option>
+
+					}
+				</select>
+			</div>
+			<div class="col col-11 col-md-5 flex-column justify-content-center">
+				<p>Mensaje a imprimir</p>
+				<textarea data-testid="Mensaje" @bind="mensaje" placeholder="Mensaje" type="textarea"></textarea>
+			</div>
+
+
+			<button data-testid="Limpiar y Conectar" @onclick="Imprimir" class=" conectarButton">
+				<span></span>
+				<p>Imprimir</p>
+			</button>
+
+
+		</div>
+	</div>
+
+</div>

@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using LoremNET;
 using System.Collections.ObjectModel;
+using Microsoft.VisualBasic;
 public class SignalRService
 {
     [Inject]
@@ -13,6 +14,47 @@ public class SignalRService
 
     private HubConnection _connection;
 
+
+    private int _mensajesRecibidos = 0;
+    public string MensajesRecibidos
+    {
+        get => _mensajesRecibidos.ToString();
+        set
+        {
+            if (_mensajesRecibidos.ToString() != value)
+            {
+                _mensajesRecibidos = int.Parse(value);
+                OnMensajeRecibidosChanged();
+            }
+        }
+    }
+
+    public event Action MensajeRecibidosChanged;
+
+    protected virtual void OnMensajeRecibidosChanged()
+    {
+        MensajeRecibidosChanged?.Invoke();
+    }
+    private int _mensajesEnviados = 0;
+    public string MensajesEnviados
+    {
+        get => _mensajesEnviados.ToString();
+        set
+        {
+            if (_mensajesEnviados.ToString() != value)
+            {
+                _mensajesEnviados = int.Parse(value);
+                OnMensajeEnviadosChanged();
+            }
+        }
+    }
+
+    public event Action MensajeEnviadosChanged;
+
+    protected virtual void OnMensajeEnviadosChanged()
+    {
+        MensajeEnviadosChanged?.Invoke();
+    }
 
     private static string guid = "";
     public static string idother = "";
@@ -51,6 +93,7 @@ public class SignalRService
     }
     public async Task Connect(bool limpiar = false, string serverHost = "https://localhost:7001/", string serverHub = "chathub", int clientCount = 1)
     {
+
         if (limpiar)
         {
             if (_connections.Count > 0)
@@ -64,9 +107,10 @@ public class SignalRService
             }
 
         }
+
         var numeroDeConexionesActuales = _connections.Count;
         Conexiones aux = new Conexiones { id = 0, IDConexion = "", MensajeEnviado = "", MensajeRecivido = "", Host = "" };
-        for (int i = 0; i < clientCount; i++)
+        for (int i = _connections.Count; i < clientCount + numeroDeConexionesActuales; i++)
         {
 
             var url = serverHost + serverHub;
@@ -74,16 +118,50 @@ public class SignalRService
                .WithUrl(url)
                .WithAutomaticReconnect()
                .Build();
-            var conexionInfo = new Conexiones { id = i + numeroDeConexionesActuales, IDConexion = connection.ConnectionId, MensajeEnviado = "", MensajeRecivido = "", Host = url };
+            var conexionInfo = new Conexiones { id = i, IDConexion = connection.ConnectionId, MensajeEnviado = "", MensajeRecivido = "", Host = url };
             var localIndex = i;
-            if (i == 0)
+            if (clientCount == 1)
             {
                 aux = conexionInfo;
             }
-            connection.On<string>("ReceiveMessage", (message) =>
+            connection.On<string, string>("ReceiveMessage", (idconexion, message) =>
         {
-            conexiones[localIndex].MensajeRecivido = message;
-            // InvokeAsync(StateHasChanged);
+            if (IsValidJson(message, out JsonDocument jsonDoc))
+            {
+                string instruccionElement = jsonDoc.RootElement.GetProperty("instruccion").GetString();
+                string datosElement = jsonDoc.RootElement.GetProperty("datos").GetString();
+
+
+
+
+                switch (instruccionElement)
+                {
+                    case "mensaje":
+
+                        string datos = datosElement;
+                        conexiones[localIndex].MensajeRecivido = datos;
+                        Console.WriteLine($"📩 Mensaje recibido: {datos}");
+                        break;
+                    case "impresoras":
+
+                        List<string> impresoras = JsonSerializer.Deserialize<List<string>>(datosElement);
+                        conexiones[localIndex].Impresoras = impresoras;
+                        Console.WriteLine($"📩 Mensaje recibido: {datosElement}");
+                        break;
+                }
+
+
+
+            }
+            else
+            {
+                conexiones[localIndex].MensajeRecivido = "El mensaje no es un JSON válido.";
+                Console.WriteLine("El mensaje no es un JSON válido.");
+            }
+
+            _mensajesRecibidos++;
+            OnMensajeRecibidosChanged();
+            OnConexionesChanged();
 
         });
             await connection.StartAsync();
@@ -100,13 +178,31 @@ public class SignalRService
         else
             _statusMessageService.StatusMessage = "Conexiones creadas";
     }
-    public async Task SendMessage(string mensajeEnviar = "")
+    public async Task SendMessage(string mensajeEnviar = "", int origenId = 0, string destinoId = "0")
     {
-
-        if (_connection?.State == HubConnectionState.Connected)
+        var origen = _connections[origenId];
+        string destino;
+        int number;
+        bool isValidNumber = int.TryParse(destinoId, out number);
+        if (isValidNumber)
         {
-            await _connection.InvokeAsync("SendMessageToClient", idother, mensajeEnviar);
+            destino = _connections[number].ConnectionId;
+        }
+        else
+        {
+            destino = destinoId;
+        }
+
+
+        if (origen?.State == HubConnectionState.Connected)
+        {
+            await origen.InvokeAsync("SendMessageToClient", destino, mensajeEnviar);
+
             _statusMessageService.StatusMessage = "Enviado: " + mensajeEnviar;
+            conexiones[origenId].MensajeEnviado = mensajeEnviar;
+            _mensajesEnviados++;
+            OnMensajeEnviadosChanged();
+            OnConexionesChanged();
         }
         else
         {
@@ -233,5 +329,33 @@ public class SignalRService
         }
     }
 
+    public async Task<List<string>> GetOtherConnectedClientsGuids(int conextionid = 0)
+    {
+        try
+        {
+            List<string> guids = await _connections[conextionid].InvokeAsync<List<string>>("GetOtherConnectedClientsGuids");
+            return guids;
+        }
+        catch (Exception ex)
+        {
+            List<string> guid = [];
+            return guid;
+
+        }
+    }
+    private static bool IsValidJson(string message, out JsonDocument jsonDoc)
+    {
+        try
+        {
+            jsonDoc = JsonDocument.Parse(message);
+            return jsonDoc.RootElement.TryGetProperty("instruccion", out _) &&
+                   jsonDoc.RootElement.TryGetProperty("datos", out _);
+        }
+        catch
+        {
+            jsonDoc = null;
+            return false;
+        }
+    }
 
 }

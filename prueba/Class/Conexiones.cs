@@ -7,4 +7,5 @@ public class Conexiones
     public string MensajeEnviado { get; set; }
     public string MensajeRecivido { get; set; }
     public string Host { get; set; }
+    public List<string> Impresoras { get; set; } = [];
 }
